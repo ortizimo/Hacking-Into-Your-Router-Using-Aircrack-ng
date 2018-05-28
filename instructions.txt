@@ -11,7 +11,7 @@ DISCLAIMER:
 2. If you don't have a separate router to play with and you use your own main one, then be aware that connectivity will be intermittent after performing these steps. You may even have to reboot your router or any other devices to get them to work as before. Worst case scenario would be that you may have to reset your router, so do these steps at your own risk. I am not responsible for any issues/damages these steps may cause. I have tested these steps multiple times for accuracy, but every hardware is different and therefore may react differently.
 
 COMMANDS YOU WILL USE:
-	•ls 		– list directory shows you the directory contents.
+	• ls 		– list directory shows you the directory contents.
 •	mv 		– move lets you move a file around and it’s also used for renaming a file.
 •	rm 		– remove permanently deletes a file.
 •	cd .. 		– let you move back a directory.
