@@ -144,8 +144,8 @@ In this section I’ll be kicking off and spoofing my LG phone while using the m
 	• ifconfig wlan0 up
 
 5. Confirm the MAC address change.
-	• ifconfig 		–or–
-	• ifconfig wlan0 –or–
+	• ifconfig 	–or–
+	• ifconfig wlan0 	–or–
 	• ifconfig | grep HW –or–
 	• iw dev
 
