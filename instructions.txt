@@ -27,12 +27,12 @@ COMMANDS YOU WILL USE:
 SECTION #1: THE SETUP
 --------------------------------------------------------------
 You'll need the following:
-	•	A router that has b/g/n radio.
-	•	A password list (any text file with the router's password in it or use John The Ripper's
+	• A router that has b/g/n radio.
+	• A password list (any text file with the router's password in it or use John The Ripper's
 		password.lst file).
-	•	An ALFA card antenna that detects b/g/n or an EDIMAX mini USB antenna.
-	•	A second device to connect to the router and generate #Data Frames...tablet, cellphone, etc...
-	•	Any Linux distro to download and install Aircrack-ng suite. I recommend Linux Mint. Kali OS already has it installed.
+	• An ALFA card antenna that detects b/g/n or an EDIMAX mini USB antenna.
+	• A second device to connect to the router and generate #Data Frames...tablet, cellphone, etc...
+	• Any Linux distro to download and install Aircrack-ng suite. I recommend Linux Mint. Kali OS already has it installed.
 
 1. Make sure you FORGET your current network...this way your computer won’t automatically try to connect to it during this exercise.
 
