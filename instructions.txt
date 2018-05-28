@@ -6,9 +6,12 @@ Date: 20161013
 Updated: 20180526
 
 DISCLAIMER:
-1. These steps will only work if you have your ACL set. If you have a router that is fully open—as in bought it, connected it—then these steps will not fully work. These steps are for a more secure router that has a limited IP pool range and also uses an ACL.
+1. These steps will only work if you have your ACL set. If you have a router that is fully open—as in bought it, connected it—then these steps will not fully work. These steps are for a more secure
+router that has a limited IP pool range and also uses an ACL.
 
-2. If you don't have a separate router to play with and you use your own main one, then be aware that connectivity will be intermittent after performing these steps. You may even have to reboot your router or any other devices to get them to work as before. Worst case scenario would be that you may have to reset your router, so do these steps at your own risk. I am not responsible for any issues/damages these steps may cause. I have tested these steps multiple times for accuracy, but every hardware is different and therefore may react differently.
+2. If you don't have a separate router to play with and you use your own main one, then be aware that connectivity will be intermittent after performing these steps. You may even have to reboot your
+router or any other devices to get them to work as before. Worst case scenario would be that you may have to reset your router, so do these steps at your own risk. I am not responsible for any
+issues/damages these steps may cause. I have tested these steps multiple times for accuracy, but every hardware is different and therefore may react differently.
 
 COMMANDS YOU WILL USE:
 	• ls 		– list directory shows you the directory contents.
@@ -121,14 +124,16 @@ different name…if so, research how you can change the name if you need to.
 15. Congrats! The password was found! That is, if you placed it in the password list first. If you did no then do it now and re-run the aircrack-ng command.
 
 REMEMBER THAT:
-We needed to put the password in the password.lst file because your password may not be too common and makes the demonstration process faster. This is just for practice and to simulate you hacked into an unknown router. In reality it would take much longer to capture the password and crack it assuming the target has a way too common password and it’s in a password list.
+We needed to put the password in the password.lst file because your password may not be too common and makes the demonstration process faster. This is just for practice and to simulate you
+hacked into an unknown router. In reality it would take much longer to capture the password and crack it assuming the target has a way too common password and it’s in a password list.
 
 Also, if you had {fixed channel mon0: -1} displayed during the packet capturing process, then you need to use --ignore-negative-one with the airodump-ng and aireplay-ng commands.
 
 --------------------------------------------------------------
 SECTION #3: SPOOFING A DEVICE
 --------------------------------------------------------------
-In this section I’ll be kicking off and spoofing my LG phone while using the main Wi-Fi adapter (wlan0). At this point no commands should be running, and your USB adapter (wlan1) should still be in monitor mode (mon0).
+In this section I’ll be kicking off and spoofing my LG phone while using the main Wi-Fi adapter (wlan0). At this point no commands should be running, and your USB adapter (wlan1) should still be
+in monitor mode (mon0).
 
 1. Make sure the main Wi-Fi adapter (wlan0) is up and running. This is the main Wi-Fi adapter and NOT the USB device that was originally set to monitor mode.
 	• ifconfig
@@ -178,7 +183,8 @@ Ex: wpa_passphrase ThePromisedLAN >> myfile.conf password1234
 --------------------------------------------------------------
 SECTION #4: ADDITIONAL NOTES
 --------------------------------------------------------------
-1. Open a third terminal screen and do an nmap scan of the network and find other devices that may be opened and their ports. Figure what other tools you can use to get into them and extract files. A Wi-Fi printer is a good one to check. Use https://www.speedguide.net/ports.php to learn more about what each port does.
+1. Open a third terminal screen and do an nmap scan of the network and find other devices that may be opened and their ports. Figure what other tools you can use to get into them and extract
+files. A Wi-Fi printer is a good one to check. Use https://www.speedguide.net/ports.php to learn more about what each port does.
 
 2. What is the MAC of the spoofed/kicked device?
 
