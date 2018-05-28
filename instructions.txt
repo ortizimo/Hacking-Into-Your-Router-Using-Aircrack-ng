@@ -14,7 +14,7 @@ COMMANDS YOU WILL USE:
 •	ls 		– list directory shows you the directory contents.
 •	mv 		– move lets you move a file around and it’s also used for renaming a file.
 •	rm 		– remove permanently deletes a file.
-•	cd .. 		– let you move back a directory.
+•	cd .. 	– let you move back a directory.
 •	cd ~ 		– takes you to the home directory.
 •	su 		– give you root access.
 •	cat 		– lets you read the contents of a file.
