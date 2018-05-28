@@ -14,14 +14,14 @@ COMMANDS YOU WILL USE:
 	• ls 		– list directory shows you the directory contents.
 	• mv 		– move lets you move a file around and it’s also used for renaming a file.
 	• rm 		– remove permanently deletes a file.
-	• cd .. 		– let you move back a directory.
+	• cd .. 	– let you move back a directory.
 	• cd ~ 		– takes you to the home directory.
 	• su 		– give you root access.
 	• cat 		– lets you read the contents of a file.
 	• nano 		– a great text editor you will need to edit the password file.
 	• Ctrl + L	– to clear the screen.
 	• mkdir		– creates a directory…this one is optional.
-	• rm –rf 		– permanently deletes a folder and all its contents.
+	• rm –rf 	– permanently deletes a folder and all its contents.
 
 --------------------------------------------------------------
 SECTION #1: THE SETUP
