@@ -1,9 +1,10 @@
-********************************************************
+﻿********************************************************
+Straightforward Training™
 Hacking a Home Router using Aircrack-ng Suite
-********************************************************
 Author: Saulo S. Ortiz
 Date: 20161013
 Updated: 20180526
+********************************************************
 
 DISCLAIMER:
 1. These steps will only work if you have your ACL set. If you have a router that is fully open—as in bought it, connected it—then
